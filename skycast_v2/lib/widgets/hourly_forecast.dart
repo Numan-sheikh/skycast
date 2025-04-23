@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:skycast/models/hourly_weather_model.dart'; // Assuming the model is in this file
+import 'package:skycast/models/hourly_weather_model.dart'; // Make sure this exists and provides icon, time, temp
 
 class HourlyForecast extends StatelessWidget {
   final List<HourlyWeatherModel> forecast;
@@ -11,10 +11,14 @@ class HourlyForecast extends StatelessWidget {
     final now = TimeOfDay.now().hour;
 
     // Show the next 24 hours from the current hour
-    final next24Hours = forecast.skipWhile((hour) {
-      final hourInt = int.tryParse(hour.time.split(':').first) ?? 0;
-      return hourInt < now;
-    }).take(24).toList();
+    final next24Hours =
+        forecast
+            .skipWhile((hour) {
+              final hourInt = int.tryParse(hour.time.split(':').first) ?? 0;
+              return hourInt < now;
+            })
+            .take(24)
+            .toList();
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
@@ -45,49 +49,47 @@ class HourlyForecast extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           SizedBox(
-            height: 120,
+            height: 100,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(horizontal: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               itemCount: next24Hours.length,
-              separatorBuilder: (_, __) => const SizedBox(width: 8),
+              separatorBuilder: (_, __) => const SizedBox(width: 10),
               itemBuilder: (context, index) {
                 final hour = next24Hours[index];
-                final label = index == 0 ? "Now" : hour.time;
+                final label = index == 0 ? "Now" : _formatHourLabel(hour.time);
+                final isNow = index == 0;
 
                 return Container(
-                  width: 60,
+                  width: 52,
                   decoration: BoxDecoration(
-                    color: Colors.grey[900],
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withAlpha(125),
-                        offset: const Offset(0, 2),
-                        blurRadius: 4,
-                      ),
-                    ],
+                    color: isNow ? Colors.white : Colors.transparent,
+                    borderRadius: BorderRadius.circular(18),
                   ),
-                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  padding: const EdgeInsets.symmetric(vertical: 6),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        label,
-                        style: const TextStyle(
-                          fontSize: 13,
-                          color: Colors.white,
+                        '${hour.temp}°',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: isNow ? Colors.black : Colors.white,
                         ),
                       ),
-                      const SizedBox(height: 6),
-                      Icon(hour.icon, color: Colors.white, size: 28),
-                      const SizedBox(height: 6),
+                      const SizedBox(height: 4),
+                      Icon(
+                        hour.icon,
+                        color: isNow ? Colors.black : Colors.white,
+                        size: 24,
+                      ),
+                      const SizedBox(height: 4),
                       Text(
-                        '${hour.temp}°',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white,
+                        label,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: isNow ? Colors.black : Colors.white70,
                         ),
                       ),
                     ],
@@ -99,5 +101,14 @@ class HourlyForecast extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  /// Helper to convert "17:00" to "5 PM"
+  String _formatHourLabel(String time24) {
+    final parts = time24.split(':');
+    final hour = int.tryParse(parts.first) ?? 0;
+    final period = hour >= 12 ? 'PM' : 'AM';
+    final hour12 = hour % 12 == 0 ? 12 : hour % 12;
+    return '$hour12 $period';
   }
 }

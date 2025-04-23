@@ -1,7 +1,9 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:skycast/models/hourly_weather_model.dart';
 import '../models/current_weather_model.dart';
-import '../models/ten_day_forecast_model.dart'; // Only keep the relevant import
+import '../models/ten_day_forecast_model.dart';
 import '../widgets/current_weather.dart';
 import '../widgets/hourly_forecast.dart';
 import '../widgets/ten_day_forecast.dart';
@@ -33,18 +35,32 @@ class HomeScreen extends StatelessWidget {
     }
   }
 
+  // Function to generate 24-hour dynamic forecast
+  List<HourlyWeatherModel> generateHourlyForecast() {
+    final now = DateTime.now();
+    final random = Random();
+    final List<IconData> weatherIcons = [
+      Icons.wb_sunny,
+      Icons.cloud,
+      Icons.cloud_queue,
+      Icons.nightlight_round,
+      Icons.nights_stay,
+    ];
+
+    return List.generate(24, (index) {
+      final hour = now.add(Duration(hours: index));
+      final formattedHour = DateFormat('HH:00').format(hour); // 24-hour format
+      return HourlyWeatherModel(
+        time: index == 0 ? 'Now' : formattedHour,
+        icon: weatherIcons[random.nextInt(weatherIcons.length)],
+        temp: 20 + random.nextInt(15), // 20°C to 34°C
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final List<HourlyWeatherModel> sampleData = [
-      HourlyWeatherModel(time: 'Now', icon: Icons.nightlight_round, temp: 25),
-      HourlyWeatherModel(time: '1 AM', icon: Icons.cloud, temp: 27),
-      HourlyWeatherModel(time: '2 AM', icon: Icons.cloud, temp: 31),
-      HourlyWeatherModel(time: '3 AM', icon: Icons.wb_sunny, temp: 34),
-      HourlyWeatherModel(time: '4 AM', icon: Icons.wb_sunny, temp: 37),
-      HourlyWeatherModel(time: '5 AM', icon: Icons.wb_sunny, temp: 38),
-      HourlyWeatherModel(time: '6 AM', icon: Icons.wb_sunny, temp: 39),
-      HourlyWeatherModel(time: '7 AM', icon: Icons.wb_sunny, temp: 41),
-    ];
+    final List<HourlyWeatherModel> sampleData = generateHourlyForecast();
 
     final List<TenDayForecastModel> forecastData = [
       TenDayForecastModel(
@@ -171,9 +187,7 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(height: 30),
               HourlyForecast(forecast: sampleData),
               const SizedBox(height: 30),
-              TenDayForecast(
-                forecast: forecastData,
-              ), // Updated to pass the entire forecast data
+              TenDayForecast(forecast: forecastData),
             ],
           ),
         ),
