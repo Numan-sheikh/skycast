@@ -1,41 +1,41 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:skycast/models/hourly_weather_model.dart';
+
 import '../models/current_weather_model.dart';
+import '../models/hourly_weather_model.dart';
 import '../models/ten_day_forecast_model.dart';
 import '../widgets/current_weather.dart';
 import '../widgets/hourly_forecast.dart';
 import '../widgets/ten_day_forecast.dart';
+import '../widgets/weather_info_card.dart'; // Import the custom weather card
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
-  // Method to map icon codes to appropriate icons
   IconData getIconFromCode(String code) {
     switch (code) {
       case '01d':
-        return Icons.wb_sunny; // Clear sky day
+        return Icons.wb_sunny;
       case '02d':
-        return Icons.cloud; // Few clouds
+        return Icons.cloud;
       case '03d':
-        return Icons.cloud_queue; // Scattered clouds
+        return Icons.cloud_queue;
       case '04d':
-        return Icons.cloud_circle; // Broken clouds
+        return Icons.cloud_circle;
       case '01n':
-        return Icons.nightlight_round; // Clear sky night
+        return Icons.nightlight_round;
       case '02n':
-        return Icons.nights_stay; // Few clouds night
+        return Icons.nights_stay;
       case '03n':
-        return Icons.cloud; // Scattered clouds night
+        return Icons.cloud;
       case '04n':
-        return Icons.cloud_queue; // Broken clouds night
+        return Icons.cloud_queue;
       default:
-        return Icons.help; // Default icon for unknown conditions
+        return Icons.help;
     }
   }
 
-  // Function to generate 24-hour dynamic forecast
   List<HourlyWeatherModel> generateHourlyForecast() {
     final now = DateTime.now();
     final random = Random();
@@ -49,11 +49,11 @@ class HomeScreen extends StatelessWidget {
 
     return List.generate(24, (index) {
       final hour = now.add(Duration(hours: index));
-      final formattedHour = DateFormat('HH:00').format(hour); // 24-hour format
+      final formattedHour = DateFormat('HH:00').format(hour);
       return HourlyWeatherModel(
         time: index == 0 ? 'Now' : formattedHour,
         icon: weatherIcons[random.nextInt(weatherIcons.length)],
-        temp: 20 + random.nextInt(15), // 20°C to 34°C
+        temp: 20 + random.nextInt(15),
       );
     });
   }
@@ -188,6 +188,11 @@ class HomeScreen extends StatelessWidget {
               HourlyForecast(forecast: sampleData),
               const SizedBox(height: 30),
               TenDayForecast(forecast: forecastData),
+              const SizedBox(height: 30),
+
+              const SizedBox(height: 40),
+              const WeatherInfoCardGrid(),
+              const SizedBox(height: 30),
             ],
           ),
         ),
