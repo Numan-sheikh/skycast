@@ -1,0 +1,31 @@
+name: skycast
+description: "A new Flutter project."
+
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.7.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+  http: ^1.3.0
+  geolocator: ^14.0.0
+  flutter_dotenv: ^5.0.2
+  provider: ^6.0.1
+  logger: ^1.0.0 # Corrected location for logger
+  cupertino_icons: ^1.0.8
+  intl: ^0.17.0
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - .env
