@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'dart:ui';
 
 import '../models/current_weather_model.dart';
 import '../models/hourly_weather_model.dart';
@@ -169,8 +170,49 @@ class HomeScreen extends StatelessWidget {
     );
 
     return Scaffold(
-      appBar: AppBar(title: const Text('SkyCast ☁️'), centerTitle: true),
+      extendBodyBehindAppBar: true,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(50),
+        child: Stack(
+          children: [
+            // Blur background
+            ClipRRect(
+              borderRadius: const BorderRadius.vertical(
+                bottom: Radius.circular(16),
+              ),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.black.withAlpha((255 * 0.15).toInt()),
+                    // subtle dark translucent
+                    borderRadius: const BorderRadius.vertical(
+                      bottom: Radius.circular(24),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            AppBar(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              centerTitle: true,
+              title: const Text(
+                'SkyCast ☁️',
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 20,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
       body: SingleChildScrollView(
+        padding: const EdgeInsets.only(
+          top: 100,
+        ), // Give space for translucent bar
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -189,7 +231,6 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(height: 30),
               TenDayForecast(forecast: forecastData),
               const SizedBox(height: 30),
-
               const SizedBox(height: 40),
               const WeatherInfoCardGrid(),
               const SizedBox(height: 30),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CurrentWeather extends StatelessWidget {
   final String condition;
@@ -20,27 +21,68 @@ class CurrentWeather extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, size: 48),
-            const SizedBox(width: 10),
-            Text(
-              '$temperature°C',
-              style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
+    final theme = Theme.of(context);
+    final Color primaryColor = theme.colorScheme.primary;
+
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: primaryColor.withAlpha(
+          (0.06 * 255).toInt(),
+        ), // Replacing withOpacity(0.06)
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 10,
+            offset: Offset(0, 6),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                icon,
+                size: 50,
+                color: primaryColor.withAlpha((0.9 * 255).toInt()),
+              ),
+              const SizedBox(width: 16),
+              Text(
+                '${temperature.toStringAsFixed(1)}°C',
+                style: GoogleFonts.robotoMono(
+                  fontSize: 42,
+                  fontWeight: FontWeight.w600,
+                  color: theme.colorScheme.onSurface.withAlpha(
+                    (0.9 * 255).toInt(),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Text(
+            condition,
+            style: GoogleFonts.roboto(
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+              color: theme.colorScheme.onSurface.withAlpha((0.8 * 255).toInt()),
             ),
-          ],
-        ),
-        const SizedBox(height: 10),
-        Text(condition, style: const TextStyle(fontSize: 20)),
-        const SizedBox(height: 10),
-        Text(
-          'Feels like: $feelsLike°C | High: $high°C | Low: $low°C',
-          style: const TextStyle(fontSize: 16),
-        ),
-      ],
+          ),
+          const SizedBox(height: 10),
+          Text(
+            'Feels like: ${feelsLike.toStringAsFixed(1)}°C • High: ${high.toStringAsFixed(1)}°C • Low: ${low.toStringAsFixed(1)}°C',
+            style: GoogleFonts.roboto(
+              fontSize: 14,
+              color: theme.colorScheme.onSurface.withAlpha((0.6 * 255).toInt()),
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
     );
   }
 }
