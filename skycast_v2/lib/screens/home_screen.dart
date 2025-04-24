@@ -5,7 +5,7 @@ import 'dart:ui';
 
 import '../models/current_weather_model.dart';
 import '../models/hourly_weather_model.dart';
-import '../models/ten_day_forecast_model.dart';
+import '../models/eight_day_forecast_model.dart';
 import '../widgets/current_weather.dart';
 import '../widgets/hourly_forecast.dart';
 import '../widgets/ten_day_forecast.dart';
@@ -63,8 +63,8 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<HourlyWeatherModel> sampleData = generateHourlyForecast();
 
-    final List<TenDayForecastModel> forecastData = [
-      TenDayForecastModel(
+    final List<EightDayForecastModel> forecastData = [
+      EightDayForecastModel(
         dayLabel: 'Today',
         dateLabel: '4/23',
         maxTemp: 30,
@@ -73,7 +73,7 @@ class HomeScreen extends StatelessWidget {
         rainChance: 10,
         condition: '',
       ),
-      TenDayForecastModel(
+      EightDayForecastModel(
         dayLabel: 'Thu',
         dateLabel: '4/24',
         maxTemp: 28,
@@ -82,7 +82,7 @@ class HomeScreen extends StatelessWidget {
         rainChance: 20,
         condition: '',
       ),
-      TenDayForecastModel(
+      EightDayForecastModel(
         dayLabel: 'Fri',
         dateLabel: '4/25',
         maxTemp: 32,
@@ -91,7 +91,7 @@ class HomeScreen extends StatelessWidget {
         rainChance: 5,
         condition: '',
       ),
-      TenDayForecastModel(
+      EightDayForecastModel(
         dayLabel: 'Sat',
         dateLabel: '4/26',
         maxTemp: 31,
@@ -100,7 +100,7 @@ class HomeScreen extends StatelessWidget {
         rainChance: 15,
         condition: '',
       ),
-      TenDayForecastModel(
+      EightDayForecastModel(
         dayLabel: 'Sun',
         dateLabel: '4/27',
         maxTemp: 33,
@@ -109,7 +109,7 @@ class HomeScreen extends StatelessWidget {
         rainChance: 10,
         condition: '',
       ),
-      TenDayForecastModel(
+      EightDayForecastModel(
         dayLabel: 'Mon',
         dateLabel: '4/28',
         maxTemp: 34,
@@ -118,7 +118,7 @@ class HomeScreen extends StatelessWidget {
         rainChance: 20,
         condition: '',
       ),
-      TenDayForecastModel(
+      EightDayForecastModel(
         dayLabel: 'Tue',
         dateLabel: '4/29',
         maxTemp: 35,
@@ -127,7 +127,7 @@ class HomeScreen extends StatelessWidget {
         rainChance: 5,
         condition: '',
       ),
-      TenDayForecastModel(
+      EightDayForecastModel(
         dayLabel: 'Wed',
         dateLabel: '4/30',
         maxTemp: 36,
@@ -136,7 +136,7 @@ class HomeScreen extends StatelessWidget {
         rainChance: 15,
         condition: '',
       ),
-      TenDayForecastModel(
+      EightDayForecastModel(
         dayLabel: 'Thu',
         dateLabel: '5/1',
         maxTemp: 30,
@@ -145,7 +145,7 @@ class HomeScreen extends StatelessWidget {
         rainChance: 10,
         condition: '',
       ),
-      TenDayForecastModel(
+      EightDayForecastModel(
         dayLabel: 'Fri',
         dateLabel: '5/2',
         maxTemp: 28,

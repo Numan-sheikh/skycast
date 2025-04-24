@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import '../models/current_weather_model.dart'; // Updated import
-import '../models/daily_weather_model.dart'; // Updated import
+import '../models/eight_day_forecast_model.dart'; // Import EightDayForecastModel
 import '../services/location_service.dart';
 import '../services/weather_service.dart';
 
@@ -10,13 +10,13 @@ class WeatherProvider extends ChangeNotifier {
   final WeatherService _weatherService = WeatherService();
 
   CurrentWeatherModel? _weather;
-  List<DailyWeatherModel>? _forecast; // Added for forecast
+  List<EightDayForecastModel>? _forecast; // Changed to EightDayForecastModel
   bool _isLoading = false;
   String? _error;
 
   CurrentWeatherModel? get weather => _weather;
-  List<DailyWeatherModel>? get forecast =>
-      _forecast; // Added getter for forecast
+  List<EightDayForecastModel>? get forecast =>
+      _forecast; // Changed to EightDayForecastModel
   bool get isLoading => _isLoading;
   String? get error => _error;
 
@@ -36,12 +36,13 @@ class WeatherProvider extends ChangeNotifier {
           _weather = weatherData; // Current weather
         }
 
-        final forecastData = await _weatherService.fetchForecastByCoords(
-          position.latitude,
-          position.longitude,
-        );
+        final forecastData = await _weatherService
+            .fetchEightDayForecastByCoords(
+              position.latitude,
+              position.longitude,
+            );
         if (forecastData != null) {
-          _forecast = forecastData; // 10-day forecast
+          _forecast = forecastData; // 8-day forecast
         }
       } else {
         _error = 'Location unavailable.';

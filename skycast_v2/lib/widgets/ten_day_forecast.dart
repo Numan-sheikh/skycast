@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../models/ten_day_forecast_model.dart';
+import '../models/eight_day_forecast_model.dart';
 
 class TenDayForecast extends StatelessWidget {
-  final List<TenDayForecastModel> forecast;
+  final List<EightDayForecastModel> forecast;
 
   const TenDayForecast({required this.forecast, super.key});
 
